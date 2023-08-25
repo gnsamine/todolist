@@ -16,7 +16,22 @@ func List(db *gorm.DB) fiber.Handler {
 }
 
 func Create(db *gorm.DB) fiber.Handler {
-	return nil
+
+	return func(c *fiber.Ctx) error {
+		var newDuty skeleton.Todo_list
+
+		err := c.BodyParser(&newDuty)
+		if err != nil {
+			return err
+		}
+
+		if err := db.Create(&newDuty).Error; err != nil {
+			return err
+		}
+
+		return c.JSON(newDuty)
+
+	}
 
 }
 
