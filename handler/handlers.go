@@ -15,6 +15,23 @@ func List(db *gorm.DB) fiber.Handler {
 
 }
 
+func ListSpecificTodo(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		ID := c.Params("id")
+
+		var todo skeleton.Todo_list
+		err := db.First(&todo, ID).Error
+		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				return c.Status(fiber.StatusNotFound).JSON(fiber.Map{})
+			}
+			return err
+		}
+
+		return c.JSON(todo)
+	}
+}
+
 func Create(db *gorm.DB) fiber.Handler {
 
 	return func(c *fiber.Ctx) error {
@@ -32,11 +49,6 @@ func Create(db *gorm.DB) fiber.Handler {
 		return c.JSON(newDuty)
 
 	}
-
-}
-
-func Get(db *gorm.DB) fiber.Handler {
-	return nil
 
 }
 

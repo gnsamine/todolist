@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	"todolist/route"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
-	handlers "todolist/handler"
 )
 
 func main() {
@@ -21,11 +20,7 @@ func main() {
 
 	app := fiber.New()
 
-	app.Get("/todos", handlers.List(db))
-	app.Post("/todos", handlers.Create(db))
-	app.Get("/todos/:id", handlers.Get(db))
-	app.Put("/todos/:id", handlers.Update(db))
-	app.Delete("/todos/:id", handlers.Delete(db))
+	route.Router(app, db)
 
 	app.Listen(":3000")
 
