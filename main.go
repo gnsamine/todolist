@@ -5,6 +5,9 @@ import (
 	"todolist/route"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,6 +22,11 @@ func main() {
 	fmt.Println(db)
 
 	app := fiber.New()
+
+	//Middlewares
+	app.Use(logger.New())  //records the details of incoming requests when any HTTP request is made. This can be used for purposes such as debugging and performance optimization.
+	app.Use(recover.New()) //catches any errors that may cause the program to crash or interrupt and keep the server running.
+	app.Use(cors.New())    //It helps applications bypass CORS restrictions by providing appropriate responses that allow or deny HTTP requests access to their resources.
 
 	route.Router(app, db)
 
