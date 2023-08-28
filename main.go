@@ -21,6 +21,8 @@ func main() {
 	}
 	fmt.Println(db)
 
+	db.AutoMigrate(&skeleton.Todo_list{}) // This creates the table if it doesn't exist
+
 	app := fiber.New()
 
 	//Middlewares
