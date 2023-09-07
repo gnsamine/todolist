@@ -5,6 +5,8 @@ import (
 	"log"
 	"todolist/route"
 
+	skeleton "todolist/skeleton"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -28,7 +30,7 @@ func main() {
 	}
 	fmt.Println(db)
 
-	db.AutoMigrate(&skeleton.Todo_list{}) // This creates the table if it doesn't exist
+	db.AutoMigrate(&skeleton.Todo_table{}) // This creates the table if it doesn't exist
 
 	app := fiber.New()
 
