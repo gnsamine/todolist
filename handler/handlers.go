@@ -42,7 +42,10 @@ func List(db *gorm.DB) fiber.Handler {
 
 func ListSpecificTodo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		
+
 		return nil
+
 	}
 }
 
