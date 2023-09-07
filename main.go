@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"todolist/route"
+	"todolist/storage"
 
 	skeleton "todolist/skeleton"
 
@@ -23,7 +25,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dsn := "host=localhost user=postgres password=tor dbname=todos port=5432 sslmode=disable TimeZone=Asia/Istanbul"
+	config := &storage.Config{
+		Host:     os.Getenv("DBHost"),
+		Port:     os.Getenv("DBPort"),
+		Password: os.Getenv("DBPassword"),
+		User:     os.Getenv("DBUser"),
+		SSLMode:  os.Getenv("DBSSLMode"),
+		DBName:   os.Getenv("DBDBName"),
+		TimeZone: os.Getenv("DBTimezone"),
+	}
+
+	dsn := storage.Informations(config)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to the database")
