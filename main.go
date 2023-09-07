@@ -2,17 +2,24 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"todolist/route"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func main() {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	dsn := "host=localhost user=postgres password=tor dbname=todos port=5432 sslmode=disable TimeZone=Asia/Istanbul"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
