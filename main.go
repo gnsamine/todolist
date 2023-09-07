@@ -7,8 +7,6 @@ import (
 	"todolist/route"
 	"todolist/storage"
 
-	skeleton "todolist/skeleton"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -20,7 +18,7 @@ import (
 
 func main() {
 
-	err := godotenv.Load(".env")
+	err := godotenv.Load(".txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,8 +39,6 @@ func main() {
 		panic("Failed to connect to the database")
 	}
 	fmt.Println(db)
-
-	db.AutoMigrate(&skeleton.Todo_table{}) // This creates the table if it doesn't exist
 
 	app := fiber.New()
 
