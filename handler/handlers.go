@@ -42,9 +42,16 @@ func List(db *gorm.DB) fiber.Handler {
 
 func ListSpecificTodo(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		
+		id := c.Params("id")
 
-		return nil
+		var todo skeleton.Todo_table
+		result := db.Find(&todo, id)
+
+		if result.Error != nil {
+			return c.Status(404).SendString("Item does not exist")
+		}
+
+		return c.JSON(todo)
 
 	}
 }
