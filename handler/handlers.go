@@ -57,12 +57,35 @@ func ListSpecificTodo(db *gorm.DB) fiber.Handler {
 }
 
 func Update(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		var todo skeleton.Todo_table
 
-	return nil
+		result := db.First(&todo, id)
+		if result.Error != nil {
+			return c.Status(404).SendString("Item does not exist")
+		}
+		if err := c.BodyParser(&todo); err != nil {
+			return err
+		}
+		db.Save(&todo)
+		return c.JSON(todo)
+	}
 
 }
 
 func Delete(db *gorm.DB) fiber.Handler {
-	return nil
+	return func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		var todo skeleton.Todo_table
+
+		result := db.First(&todo, id)
+		if result.Error != nil {
+			return c.Status(404).SendString("Item does not exist")
+		}
+		db.Delete(&todo, id)
+
+		return c.JSON(todo)
+	}
 
 }
